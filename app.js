@@ -5,8 +5,6 @@ import connectDb from "./config/db.config.js"
 import userRouter from "./routers/user.router.js"
 import authRouter from "./routers/auth.router.js"
 import itemRouter from "./routers/item.router.js"
-import swaggerUi from "swagger-ui-express"
-import swaggerDocument from "./swagger.js"
 
 dotenv.config()
 
@@ -16,9 +14,6 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-// Swagger documentation
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 // Health check route
 app.get("/api/health", (req, res) => {
