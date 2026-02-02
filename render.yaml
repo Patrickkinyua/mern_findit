@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: mern_findit
+    runtime: node
+    startCommand: node app.js
+    buildCommand: npm install
+    envVars:
+      - key: NODE_ENV
+        value: production
