@@ -16,11 +16,15 @@
 
 ## 🌐 Base URL
 
+**Development:**
 ```
 http://localhost:5001/api
 ```
 
-**Production:** Update to your deployed server URL
+**Production:**
+```
+https://mern-findit.onrender.com/api
+```
 
 ---
 
@@ -42,7 +46,7 @@ Authorization: Bearer YOUR_JWT_TOKEN
 
 ### Example (JavaScript/Fetch)
 ```javascript
-const response = await fetch('http://localhost:5001/api/items', {
+const response = await fetch('https://mern-findit.onrender.com/api/items', {
   method: 'GET',
   headers: {
     'Authorization': `Bearer ${token}`
@@ -57,7 +61,7 @@ const config = {
     'Authorization': `Bearer ${token}`
   }
 };
-axios.get('http://localhost:5001/api/items', config);
+axios.get('https://mern-findit.onrender.com/api/items', config);
 ```
 
 ---
@@ -605,7 +609,7 @@ Authorization: Bearer TOKEN
 **Login Example:**
 ```javascript
 async function login(email, password) {
-  const response = await fetch('http://localhost:5001/api/auth/login', {
+  const response = await fetch('https://mern-findit.onrender.com/api/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -627,7 +631,7 @@ async function login(email, password) {
 ```javascript
 async function getItems(type = 'lost', page = 1) {
   const response = await fetch(
-    `http://localhost:5001/api/items?type=${type}&page=${page}`,
+    `https://mern-findit.onrender.com/api/items?type=${type}&page=${page}`,
     {
       method: 'GET'
     }
@@ -644,7 +648,7 @@ async function getUserProfile(userId) {
   const token = localStorage.getItem('token');
   
   const response = await fetch(
-    `http://localhost:5001/api/users/${userId}`,
+    `https://mern-findit.onrender.com/api/users/${userId}`,
     {
       method: 'GET',
       headers: {
@@ -665,7 +669,7 @@ async function getUserProfile(userId) {
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5001/api'
+  baseURL: 'https://mern-findit.onrender.com/api'
 });
 
 // Add token to all requests
@@ -916,7 +920,8 @@ Available item categories:
 ```bash
 # Start backend
 npm run dev
-# Server runs on http://localhost:5001
+# Production: https://mern-findit.onrender.com
+# Development: http://localhost:5001
 ```
 
 ---

@@ -13,22 +13,17 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Routes
-app.use("/api/auth", authRouter)
-app.use("/api/users", userRouter)
-app.use("/api/items", itemRouter)
-
 // Health check route
 app.get("/api/health", (req, res) => {
     res.status(200).json({ success: true, message: "Server is running" })
 })
 
-// 404 handler
-app.use((req, res) => {
-    res.status(404).json({ success: false, message: "Route not found" })
-})
+// Routes (MUST come BEFORE 404 handler)
+app.use("/api/auth", authRouter)
+app.use("/api/users", userRouter)
+app.use("/api/items", itemRouter)
 
-// Global error handler
+// Global error handler (BEFORE 404 handler)
 app.use((err, req, res, next) => {
     console.error("Global Error:", err)
     res.status(err.status || 500).json({
@@ -38,9 +33,18 @@ app.use((err, req, res, next) => {
     })
 })
 
+// 404 handler (LAST - catches everything else)
+app.use((req, res) => {
+    res.status(404).json({ success: false, message: "Route not found" })
+})
+
 const PORT = process.env.PORT || 5001;
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    connectDb();    
-});
+const startServer = async () => {
+    await connectDb();
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
+
+startServer();
