@@ -1,0 +1,44 @@
+import express from "express"
+import dotenv from "dotenv"
+import connectDb from "./config/db.config.js"
+import userRouter from "./routers/user.router.js"
+import authRouter from "./routers/auth.router.js"
+import itemRouter from "./routers/item.router.js"
+
+dotenv.config()
+
+const app = express()
+
+// Middleware
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// Routes
+app.use("/api/auth", authRouter)
+app.use("/api/users", userRouter)
+app.use("/api/items", itemRouter)
+
+// Health check route
+app.get("/api/health", (req, res) => {
+    res.status(200).json({ success: true, message: "Server is running" })
+})
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({ success: false, message: "Route not found" })
+})
+
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error("Global Error:", err)
+    res.status(err.status || 500).json({
+        success: false,
+        message: err.message || "Internal server error",
+        error: process.env.NODE_ENV === "development" ? err : undefined,
+    })
+})
+
+app.listen(5001, () => {
+    console.log("Server is running on http://localhost:5001");
+    connectDb();    
+});
