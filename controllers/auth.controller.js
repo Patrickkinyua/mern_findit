@@ -73,10 +73,11 @@ export const registerUser = async (req, res) => {
       maxAge: 60 * 60 * 1000, // 1 hour
     });
 
-    // 8️⃣ Send response (no password)
+    // 8️⃣ Send response with token (no password)
     return res.status(201).json({
       success: true,
       message: "User registered successfully",
+      token: token,
       user: {
         id: newUser._id,
         name: newUser.name,
@@ -145,6 +146,7 @@ export const loginUse = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "Login successful",
+            token: token,
             user: {
                 id: user._id,
                 name: user.name,
